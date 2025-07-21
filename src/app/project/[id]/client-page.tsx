@@ -1,5 +1,5 @@
 "use client";
-import ProjectModal from "@/app/components/ProjectModal";
+import NewProjectModal from "@/app/components/NewProjectModal";
 import { useRouter } from "next/navigation";
 import { WorkedOnItem } from "@/app/data/projects";
 import LandingPage from "../../LandingPage";
@@ -14,7 +14,7 @@ export default function ProjectClientPage({
   return (
     <>
       <LandingPage />
-      <ProjectModal
+      <NewProjectModal
         isOpen={true}
         onClose={() => router.push("/")}
         project={project}

@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState, use } from "react";
-import ProjectModal from "@/app/components/ProjectModal";
+import NewProjectModal from "@/app/components/NewProjectModal";
 import { workedOnItems, WorkedOnItem } from "@/app/data/projects";
 
 export default function ProjectModalInterceptor({
@@ -29,5 +29,7 @@ export default function ProjectModalInterceptor({
     return null;
   }
 
-  return <ProjectModal isOpen={true} onClose={handleClose} project={project} />;
+  return (
+    <NewProjectModal isOpen={true} onClose={handleClose} project={project} />
+  );
 }

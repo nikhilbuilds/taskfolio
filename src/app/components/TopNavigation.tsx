@@ -9,6 +9,7 @@ import SkillsModal from "./SkillsModal";
 import ContactModal from "./ContactModal";
 import SearchDropdown from "./SearchDropdown";
 import { useTheme } from "../contexts/ThemeContext";
+import AboutModal from "./AboutModal";
 
 interface TopNavigationProps {
   onYourWorkClick?: () => void;
@@ -23,6 +24,7 @@ const TopNavigation: React.FC<TopNavigationProps> = ({
 }) => {
   const [isSkillsModalOpen, setIsSkillsModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -160,7 +162,8 @@ const TopNavigation: React.FC<TopNavigationProps> = ({
             </button>
             <FaQuestionCircle
               size={20}
-              className="hidden sm:block hover:text-gray-200 transition-colors cursor-pointer"
+              className="hover:text-gray-200 transition-colors cursor-pointer"
+              onClick={() => setIsAboutModalOpen(true)}
             />
             <IoMdSettings
               size={20}
@@ -284,6 +287,10 @@ const TopNavigation: React.FC<TopNavigationProps> = ({
       <ContactModal
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
+      />
+      <AboutModal
+        isOpen={isAboutModalOpen}
+        onClose={() => setIsAboutModalOpen(false)}
       />
     </>
   );
