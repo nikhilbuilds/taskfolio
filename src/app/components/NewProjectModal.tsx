@@ -259,7 +259,13 @@ const NewProjectModal: React.FC<ProjectModalProps> = ({
             </h4>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {project.images.map((image, index) => (
-                <div key={index} className="group relative">
+                <a
+                  key={index}
+                  href={image}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative"
+                >
                   <img
                     src={image}
                     alt={`${project.title} screenshot ${index + 1}`}
@@ -268,7 +274,7 @@ const NewProjectModal: React.FC<ProjectModalProps> = ({
                   <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center transition-opacity duration-300">
                     <FaExternalLinkAlt className="text-white opacity-0 group-hover:opacity-100" />
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>
