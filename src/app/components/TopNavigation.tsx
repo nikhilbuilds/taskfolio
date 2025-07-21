@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import { BsGrid3X3GapFill } from "react-icons/bs";
+import { BsGrid3X3GapFill, BsBoxArrowUpRight } from "react-icons/bs";
 import { FaAngleDown, FaQuestionCircle, FaBars, FaTimes } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { GoRocket } from "react-icons/go";
@@ -111,21 +111,42 @@ const TopNavigation: React.FC<TopNavigationProps> = ({
               Contact <FaAngleDown className="ml-1" />
             </li>
           </ul>
-          <button
-            onClick={handleDownloadCV}
-            className="hidden sm:block text-white px-3 lg:px-4 py-2 rounded transition-colors text-sm lg:text-base"
-            style={{
-              backgroundColor: currentTheme.secondary,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = currentTheme.primaryHover;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = currentTheme.secondary;
-            }}
-          >
-            Download CV
-          </button>
+          <div className="hidden sm:flex items-center space-x-2">
+            <button
+              onClick={handleDownloadCV}
+              className="text-white px-3 lg:px-4 py-2 rounded transition-colors text-sm lg:text-base"
+              style={{
+                backgroundColor: currentTheme.secondary,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor =
+                  currentTheme.primaryHover;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = currentTheme.secondary;
+              }}
+            >
+              Download CV
+            </button>
+            <a
+              href="https://devnikhil.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white px-3 lg:px-4 py-2 rounded transition-colors text-sm lg:text-base flex items-center"
+              style={{
+                backgroundColor: currentTheme.secondary,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor =
+                  currentTheme.primaryHover;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = currentTheme.secondary;
+              }}
+            >
+              devnikhil.com <BsBoxArrowUpRight className="ml-1" />
+            </a>
+          </div>
         </div>
         <div className="flex items-center space-x-2 lg:space-x-4">
           <div className="relative hidden sm:block" ref={searchRef}>
@@ -271,15 +292,28 @@ const TopNavigation: React.FC<TopNavigationProps> = ({
               >
                 Contact
               </button>
-              <button
-                onClick={() => {
-                  handleDownloadCV();
-                  setIsMobileMenuOpen(false);
-                }}
-                className="w-full text-left text-white py-3 px-3 hover:text-gray-200 transition-colors rounded hover:bg-black hover:bg-opacity-20"
-              >
-                Download CV
-              </button>
+              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full">
+                <button
+                  onClick={() => {
+                    handleDownloadCV();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full text-center text-white py-3 px-3 hover:text-gray-200 transition-colors rounded hover:bg-black hover:bg-opacity-20"
+                  style={{ backgroundColor: "rgba(0,0,0,0.1)" }}
+                >
+                  Download CV
+                </button>
+                <a
+                  href="https://devnikhil.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full text-center text-white py-3 px-3 hover:text-gray-200 transition-colors rounded hover:bg-black hover:bg-opacity-20 flex items-center justify-center"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  style={{ backgroundColor: "rgba(0,0,0,0.1)" }}
+                >
+                  devnikhil.com <BsBoxArrowUpRight className="ml-1" />
+                </a>
+              </div>
             </div>
           </div>
         )}
