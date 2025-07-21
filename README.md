@@ -40,8 +40,8 @@ Follow these instructions to get a local copy of the project up and running.
 
 1.  Clone the repository:
     ```bash
-    git clone https://github.com/your-username/your-repo-name.git
-    cd your-repo-name
+    git clone [https://github.com/nikhilbuilds/taskfolio.git](https://github.com/nikhilbuilds/taskfolio)
+    cd taskfolio
     ```
 2.  Install the dependencies:
     ```bash
