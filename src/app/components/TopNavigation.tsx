@@ -10,6 +10,8 @@ import ContactModal from "./ContactModal";
 import SearchDropdown from "./SearchDropdown";
 import { useTheme } from "../contexts/ThemeContext";
 import AboutModal from "./AboutModal";
+import { SignedIn, SignedOut, UserButton, SignInButton } from "@clerk/nextjs";
+import Link from "next/link";
 
 interface TopNavigationProps {
   onYourWorkClick?: () => void;
@@ -169,12 +171,16 @@ const TopNavigation: React.FC<TopNavigationProps> = ({
               size={20}
               className="hidden sm:block hover:text-gray-200 transition-colors cursor-pointer"
             />
-            <div
-              className="text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold"
-              style={{ backgroundColor: currentTheme.accent }}
-            >
-              NK
-            </div>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">
+                  Sign In
+                </button>
+              </SignInButton>
+            </SignedOut>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="lg:hidden hover:text-gray-200 transition-colors p-1 rounded"

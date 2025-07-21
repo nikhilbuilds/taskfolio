@@ -18,6 +18,17 @@ import { BiTask } from "react-icons/bi";
 import { MdCreate } from "react-icons/md";
 import ShareModal from "./ShareModal";
 import { useTheme } from "../contexts/ThemeContext";
+import { useUser, SignedOut, SignInButton } from "@clerk/nextjs";
+import Link from "next/link";
+
+interface Comment {
+  _id: string;
+  projectId: number;
+  author: string;
+  avatar: string;
+  content: string;
+  timestamp: string;
+}
 
 interface ProjectModalProps {
   isOpen: boolean;
@@ -47,16 +58,29 @@ const NewProjectModal: React.FC<ProjectModalProps> = ({
   const commentInputRef = useRef<HTMLTextAreaElement>(null);
   const commentsContainerRef = useRef<HTMLDivElement>(null);
   const { currentTheme } = useTheme();
-  const [comments, setComments] = useState([
-    {
-      id: 1,
-      author: "Nikhil Khanna",
-      avatar: "NK",
-      content: "Great progress on this project! The architecture looks solid.",
-      timestamp: "2 hours ago",
-    },
-  ]);
+  const [comments, setComments] = useState<Comment[]>([]);
   const [activeTab, setActiveTab] = useState("details");
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (isOpen) {
+      const fetchComments = async () => {
+        try {
+          const response = await fetch(`/api/comments?projectId=${project.id}`);
+          if (response.ok) {
+            const data = await response.json();
+            setComments(data);
+          } else {
+            console.error("Failed to fetch comments");
+          }
+        } catch (error) {
+          console.error("Error fetching comments:", error);
+        }
+      };
+
+      fetchComments();
+    }
+  }, [isOpen, project.id]);
 
   // Keyboard shortcut for "M" key to focus comment input
   useEffect(() => {
@@ -92,17 +116,34 @@ const NewProjectModal: React.FC<ProjectModalProps> = ({
     };
   }, [isOpen]);
 
-  const handleAddComment = () => {
-    if (comment.trim()) {
+  const handleAddComment = async () => {
+    if (comment.trim() && user) {
       const newComment = {
-        id: comments.length + 1,
-        author: "Nikhil Khanna",
-        avatar: "NK",
+        projectId: project.id,
+        author: user.fullName || "Anonymous",
+        avatar: user.imageUrl || "",
         content: comment,
-        timestamp: "Just now",
       };
-      setComments([...comments, newComment]);
-      setComment("");
+
+      try {
+        const response = await fetch("/api/comments", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newComment),
+        });
+
+        if (response.ok) {
+          const savedComment = await response.json();
+          setComments([...comments, savedComment]);
+          setComment("");
+        } else {
+          console.error("Failed to save comment");
+        }
+      } catch (error) {
+        console.error("Error saving comment:", error);
+      }
     }
   };
 
@@ -246,12 +287,13 @@ const NewProjectModal: React.FC<ProjectModalProps> = ({
       </h3>
       <div className="space-y-4">
         {comments.map((commentItem) => (
-          <div key={commentItem.id} className="flex space-x-3">
-            <div
-              className="text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold"
-              style={{ backgroundColor: currentTheme.accent }}
-            >
-              {commentItem.avatar}
+          <div key={commentItem._id} className="flex space-x-3">
+            <div className="flex-shrink-0">
+              <img
+                src={commentItem.avatar}
+                alt={commentItem.author}
+                className="w-8 h-8 rounded-full"
+              />
             </div>
             <div className="flex-1">
               <div className="flex items-center space-x-2 mb-1">
@@ -265,7 +307,7 @@ const NewProjectModal: React.FC<ProjectModalProps> = ({
                   className="text-sm transition-colors duration-300"
                   style={{ color: currentTheme.textSecondary }}
                 >
-                  {commentItem.timestamp}
+                  {new Date(commentItem.timestamp).toLocaleString()}
                 </span>
               </div>
               <p
@@ -280,55 +322,67 @@ const NewProjectModal: React.FC<ProjectModalProps> = ({
       </div>
 
       {/* Add Comment */}
-      <div className="flex space-x-3 mt-6">
-        <div
-          className="text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold"
-          style={{ backgroundColor: currentTheme.accent }}
-        >
-          NK
-        </div>
-        <div className="flex-1">
-          <textarea
-            ref={commentInputRef}
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            placeholder="Add a comment..."
-            className="w-full p-3 border rounded-lg resize-none focus:outline-none focus:ring-2 transition-colors duration-300"
-            style={{
-              backgroundColor: currentTheme.surface,
-              borderColor: currentTheme.border,
-              color: currentTheme.text,
-            }}
-            rows={3}
-          />
-          <div className="flex justify-between items-center mt-2">
-            <div
-              className="flex items-center space-x-2 text-sm transition-colors duration-300"
-              style={{ color: currentTheme.textSecondary }}
-            >
-              <span>Pro tip: press</span>
-              <kbd
-                className="px-2 py-1 rounded text-xs transition-colors duration-300"
-                style={{
-                  backgroundColor: currentTheme.border,
-                  color: currentTheme.text,
-                }}
+      {user ? (
+        <div className="flex space-x-3 mt-6">
+          <div className="flex-shrink-0">
+            <img
+              src={user.imageUrl}
+              alt={user.fullName || ""}
+              className="w-8 h-8 rounded-full"
+            />
+          </div>
+          <div className="flex-1">
+            <textarea
+              ref={commentInputRef}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Add a comment..."
+              className="w-full p-3 border rounded-lg resize-none focus:outline-none focus:ring-2 transition-colors duration-300"
+              style={{
+                backgroundColor: currentTheme.surface,
+                borderColor: currentTheme.border,
+                color: currentTheme.text,
+              }}
+              rows={3}
+            />
+            <div className="flex justify-between items-center mt-2">
+              <div
+                className="flex items-center space-x-2 text-sm transition-colors duration-300"
+                style={{ color: currentTheme.textSecondary }}
               >
-                M
-              </kbd>
-              <span>to comment</span>
+                <span>Pro tip: press</span>
+                <kbd
+                  className="px-2 py-1 rounded text-xs transition-colors duration-300"
+                  style={{
+                    backgroundColor: currentTheme.border,
+                    color: currentTheme.text,
+                  }}
+                >
+                  M
+                </kbd>
+                <span>to comment</span>
+              </div>
+              <button
+                onClick={handleAddComment}
+                className="px-4 py-2 text-white rounded hover:opacity-80 disabled:opacity-50 transition-all duration-300"
+                style={{ backgroundColor: currentTheme.primary }}
+                disabled={!comment.trim()}
+              >
+                Comment
+              </button>
             </div>
-            <button
-              onClick={handleAddComment}
-              className="px-4 py-2 text-white rounded hover:opacity-80 disabled:opacity-50 transition-all duration-300"
-              style={{ backgroundColor: currentTheme.primary }}
-              disabled={!comment.trim()}
-            >
-              Comment
-            </button>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="mt-6 text-center">
+          <p style={{ color: currentTheme.textSecondary }}>
+            <SignInButton mode="modal">
+              <button className="underline">Sign in</button>
+            </SignInButton>{" "}
+            to leave a comment.
+          </p>
+        </div>
+      )}
     </div>
   );
 

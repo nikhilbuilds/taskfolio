@@ -60,6 +60,10 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
                     icon to cycle through different themes.
                   </li>
                   <li>
+                    <strong>Leave a Comment:</strong> Sign in with your Google
+                    account to leave a comment on my projects.
+                  </li>
+                  <li>
                     <strong>Get in Touch:</strong> The contact modal provides
                     multiple ways to connect with me.
                   </li>
