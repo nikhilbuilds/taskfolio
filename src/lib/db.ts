@@ -27,12 +27,15 @@ async function dbConnect() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      dbName: "portfolio",
+      collection: "comments",
     };
 
     cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
       return mongoose;
     });
   }
+
   cached.conn = await cached.promise;
 
   console.log("Connected to MongoDB");
