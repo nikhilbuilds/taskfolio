@@ -65,10 +65,10 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                 key={index}
                 className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
               >
-                <div className="flex flex-col sm:flex-row items-start sm:space-x-4">
-                  <div className="flex items-center w-full">
-                    <div className="text-2xl mt-1">{contact.icon}</div>
-                    <div className="sm:hidden flex-1 ml-4">
+                <div className="flex flex-col md:flex-row items-start md:items-center md:space-x-4">
+                  <div className="flex items-center w-full md:w-auto mb-4 md:mb-0">
+                    <div className="text-2xl">{contact.icon}</div>
+                    <div className="md:hidden flex-1 ml-4">
                       <h3 className="font-semibold text-gray-900">
                         {contact.type}
                       </h3>
@@ -76,13 +76,13 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                     </div>
                   </div>
 
-                  <div className="flex-1 mt-4 sm:mt-0">
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
-                      <div className="mb-4 sm:mb-0">
-                        <h3 className="hidden sm:block font-semibold text-gray-900">
+                  <div className="flex-1">
+                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
+                      <div className="mb-4 md:mb-0">
+                        <h3 className="hidden md:block font-semibold text-gray-900">
                           {contact.type}
                         </h3>
-                        <p className="hidden sm:block text-gray-600">
+                        <p className="hidden md:block text-gray-600">
                           {contact.value}
                         </p>
                         <p className="text-sm text-gray-500 mt-1">
@@ -103,7 +103,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                             ? "noopener noreferrer"
                             : undefined
                         }
-                        className="w-full sm:w-auto flex items-center justify-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+                        className="w-full md:w-auto flex items-center justify-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
                       >
                         <span>
                           {contact.type === "Email"

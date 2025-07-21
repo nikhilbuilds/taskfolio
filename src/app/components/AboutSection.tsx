@@ -82,7 +82,7 @@ const AboutSection: React.FC = () => {
               className="mr-3"
               style={{ color: currentTheme.textSecondary }}
             />
-            Toronto, Canada
+            Bengaluru, India
           </li>
         </ul>
         <h2
@@ -107,16 +107,28 @@ const AboutSection: React.FC = () => {
           className="font-bold text-xs mb-4 mt-8 transition-colors duration-300"
           style={{ color: currentTheme.textSecondary }}
         >
-          TEAMS
+          ABOUT ME
         </h2>
         <div
           className="text-sm transition-colors duration-300"
           style={{ color: currentTheme.textSecondary }}
         >
-          <p>Full Stack Developer & Computer Enthusiast</p>
-          <p className="mt-2">
-            26 years old, passionate about open source development
+          <p>
+            I am a 28-year-old software developer with a passion for creating
+            innovative and impactful solutions. My journey in tech is driven by
+            a love for open-source and a desire to build things that matter.
           </p>
+        </div>
+        <h2
+          className="font-bold text-xs mb-4 mt-8 transition-colors duration-300"
+          style={{ color: currentTheme.textSecondary }}
+        >
+          FULL STACK DEVELOPER & COMPUTER ENTHUSIAST
+        </h2>
+        <div
+          className="text-sm transition-colors duration-300"
+          style={{ color: currentTheme.textSecondary }}
+        >
           <p className="mt-2">
             Specializes in React, Node.js, TypeScript, and Microservices
           </p>
