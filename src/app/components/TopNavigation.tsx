@@ -34,10 +34,7 @@ const TopNavigation: React.FC<TopNavigationProps> = ({
   const { currentTheme, switchTheme } = useTheme();
 
   const handleDownloadCV = () => {
-    window.open(
-      "https://www.devnikhil.com/_files/ugd/87e30f_2a0386ac73fe453eb7bae1443af77327.pdf",
-      "_blank"
-    );
+    window.open("https://www.devnikhil.com/Nikhil-resume.pdf", "_blank");
   };
 
   const handleSearchFocus = () => {
